@@ -34,20 +34,22 @@
      <!-- Mobile nav -->
      <div id="mobileNav" class="md:hidden hidden border-t border-border/60 bg-background/95">
          <div class="container py-3 grid gap-2">
-             <a class="py-2 hover:text-primary transition" href="#">Início</a>
+             <a class="py-2 hover:text-primary transition" href="./index">Início</a>
              <a class="py-2 hover:text-primary transition" href="./courses">Cursos</a>
              <a class="py-2 hover:text-primary transition" href="#sobre">Sobre</a>
              <a class="py-2 hover:text-primary transition" href="#contato">Contato</a>
              <a class="hover:text-primary transition" href="./adminCourses">Admin</a>
              <div class="pt-2 flex gap-2">
-                 <a href="#dashboard" class="flex-1 inline-flex items-center justify-center rounded-2xl px-4 py-2 ring-1 ring-white/10 hover:bg-white/5 transition">
+                 <a href="./myDashboard" class="flex-1 inline-flex items-center justify-center rounded-2xl px-4 py-2 ring-1 ring-white/10 hover:bg-white/5 transition">
                      Dashboard
                  </a>
                  <a href="./courses" class="flex-1 inline-flex items-center justify-center rounded-2xl px-4 py-2 bg-primary text-primary-foreground hover:bg-primary/90 transition">
                      Cursos
                  </a>
+                 <a href="./profile" class="inline-flex items-center rounded-2xl px-4 py-2 text-primary-foreground hover:bg-primary/90 transition">
+                     <i data-lucide="user"></i> Perfil
+                 </a>
              </div>
          </div>
      </div>
  </header>
-

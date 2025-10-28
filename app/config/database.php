@@ -2,10 +2,10 @@
 require_once __DIR__ . '/env.php';
 
 function get_pdo(): PDO {
-    $host = env_get('DB_HOST', 'localhost');
-    $db   = env_get('DB_NAME', 'codesphere');
-    $user = env_get('DB_USER', 'root');
-    $pass = env_get('DB_PASS', '');
+    $host = env_get('DB_HOST', 'mysql.hostinger.com');
+    $db   = env_get('DB_NAME', 'u455152201_codesphere');
+    $user = env_get('DB_USER', 'u455152201_codesphere');
+    $pass = env_get('DB_PASS', 'LlZWYTHF>0');
     $charset = env_get('DB_CHARSET', 'utf8mb4');
 
     $dsn = "mysql:host={$host};dbname={$db};charset={$charset}";

@@ -8,7 +8,7 @@
 
   <!-- Fonte do seu tailwind.config -->
   <link href="https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;600;700;800;900&display=swap"
-        rel="stylesheet">
+    rel="stylesheet">
 
   <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -18,12 +18,29 @@
 
   <!-- Utilitárias equivalentes (sem @apply) -->
   <style>
-    .text-muted-foreground { color: #d4d4d4; }
-    .gradient-gold { background-image: linear-gradient(135deg, #ffb600, #ffcf66); }
-    .shadow-premium { box-shadow: 0 12px 40px -10px rgba(0, 0, 0, 0.6); }
-    .transition-smooth { transition: all .4s cubic-bezier(0.4,0,0.2,1); }
-    .text-destructive { color:#ff4444; }
-    .hover\:text-destructive:hover { color:#ff4444; }
+    .text-muted-foreground {
+      color: #d4d4d4;
+    }
+
+    .gradient-gold {
+      background-image: linear-gradient(135deg, #ffb600, #ffcf66);
+    }
+
+    .shadow-premium {
+      box-shadow: 0 12px 40px -10px rgba(0, 0, 0, 0.6);
+    }
+
+    .transition-smooth {
+      transition: all .4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .text-destructive {
+      color: #ff4444;
+    }
+
+    .hover\:text-destructive:hover {
+      color: #ff4444;
+    }
   </style>
 </head>
 
@@ -120,7 +137,7 @@
                 <p class="text-xs text-muted-foreground mt-1">PNG, JPG até 5MB</p>
               </label>
               <input id="thumbnailUrlInput" type="text" placeholder="Ou cole aqui uma URL pública da imagem"
-                     class="w-full bg-background/50 rounded-2xl border border-border/60 px-3 py-2 outline-none focus:ring-2 focus:ring-primary" />
+                class="w-full bg-background/50 rounded-2xl border border-border/60 px-3 py-2 outline-none focus:ring-2 focus:ring-primary" />
             </div>
           </div>
         </section>
@@ -157,19 +174,10 @@
   </div>
 
   <script src="./public/src/js/tailwind.config.js"></script>
-  <script src="./public/src/js/ui.js"></script>
+
+  <script src="./public/src/js/ui.js?v=<?php echo time()?>"></script>
   <script src="./public/src/js/main.js"></script>
 
-  <script>
-   
-    // ---------- Navbar + Icons ----------
-    window.lucide && window.lucide.createIcons();
-    const menuBtn = document.getElementById('menuBtn');
-    const mobileNav = document.getElementById('mobileNav');
-    if (menuBtn && mobileNav) menuBtn.addEventListener('click', () => mobileNav.classList.toggle('hidden'));
-
-    // ---------- Campos ----------
- 
-  </script>
 </body>
+
 </html>

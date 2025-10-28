@@ -173,19 +173,9 @@
 
 
   <script src="./public/src/js/tailwind.config.js"></script>
-  <script src="./public/src/js/ui.js"></script>
+  <script src="./public/src/js/ui.js?v=<?php echo time()?>"></script>
   <script src="./public/src/js/main.js?v<?php echo time() ?>"></script>
   <script>
-    // Lucide
-    window.lucide && window.lucide.createIcons();
-
-    // Mobile nav
-    const menuBtn = document.getElementById('menuBtn');
-    const mobileNav = document.getElementById('mobileNav');
-    if (menuBtn && mobileNav) {
-      menuBtn.addEventListener('click', () => mobileNav.classList.toggle('hidden'));
-    }
-
     // Accordion simples (collapsible single)
     const acc = document.getElementById('accordion');
     let openKey = null;

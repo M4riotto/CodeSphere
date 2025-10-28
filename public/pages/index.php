@@ -94,10 +94,10 @@
           conteúdo exclusivo e suporte personalizado para seu sucesso.
         </p>
         <div class="flex flex-wrap gap-4">
-          <a href="#cursos" class="inline-flex items-center rounded-2xl px-5 py-3 bg-gradient-to-r from-primary to-primary/80 text-primary-foreground hover:opacity-95 text-base shadow-premium transition">
+          <a href="./courses" class="inline-flex items-center rounded-2xl px-5 py-3 bg-gradient-to-r from-primary to-primary/80 text-primary-foreground hover:opacity-95 text-base shadow-premium transition">
             Explorar Cursos
           </a>
-          <a href="#dashboard" class="inline-flex items-center rounded-2xl px-5 py-3 ring-1 ring-white/10 hover:bg-white/5 text-base transition">
+          <a href="./myDashboard" class="inline-flex items-center rounded-2xl px-5 py-3 ring-1 ring-white/10 hover:bg-white/5 text-base transition">
             Acessar Dashboard
           </a>
         </div>
@@ -234,7 +234,7 @@
       </div>
 
       <div class="text-center">
-        <a href="#cursos" class="inline-flex items-center rounded-2xl px-5 py-3 ring-1 ring-white/10 hover:bg-white/5 text-base transition">
+        <a href="./courses" class="inline-flex items-center rounded-2xl px-5 py-3 ring-1 ring-white/10 hover:bg-white/5 text-base transition">
           Ver Todos os Cursos
         </a>
       </div>
@@ -269,12 +269,12 @@
   <!-- Footer -->
   <footer class="border-t border-border/50 py-8">
     <div class="container text-center text-muted-foreground">
-      <p>&copy; 2024 EliteLearn. Transformando carreiras através da educação premium.</p>
+      <p>&copy; 2024 CodesPhere. Transformando carreiras através da educação premium.</p>
     </div>
   </footer>
 
   <script src="./public/src/js/tailwind.config.js"></script>
-  <script src="./public/src/js/ui.js"></script>
+  <script src="./public/src/js/ui.js?v=<?php echo time()?>"></script>
 </body>
 
 </html>
