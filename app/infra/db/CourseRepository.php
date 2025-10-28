@@ -18,26 +18,41 @@ class CourseRepository implements ICourseRepository
         return (bool)$stmt->fetch();
     }
 
-    public function create(Course $course): int
+    public function create(Course $course, int $userId = 1): int
     {
-        $sql = "INSERT INTO courses
+            // 1️⃣ Inserir o curso
+            $sql = "INSERT INTO courses
             (title, slug, summary, description, thumbnail_url, category_id, level, language, is_published, price_cents, created_at)
             VALUES
             (:title, :slug, :summary, :description, :thumbnail_url, :category_id, :level, :language, :is_published, :price_cents, NOW())";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->bindValue(':title',         $course->title);
-        $stmt->bindValue(':slug',          $course->slug);
-        $stmt->bindValue(':summary',       $course->summary);
-        $stmt->bindValue(':description',   $course->description);
-        $stmt->bindValue(':thumbnail_url', $course->thumbnail_url);
-        $stmt->bindValue(':category_id',   $course->category_id, $course->category_id ? PDO::PARAM_INT : PDO::PARAM_NULL);
-        $stmt->bindValue(':level',         $course->level);
-        $stmt->bindValue(':language',      $course->language);
-        $stmt->bindValue(':is_published',  $course->is_published, PDO::PARAM_INT);
-        $stmt->bindValue(':price_cents',   $course->price_cents,  PDO::PARAM_INT);
-        $stmt->execute();
-        return (int)$this->pdo->lastInsertId();
+
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindValue(':title',         $course->title);
+            $stmt->bindValue(':slug',          $course->slug);
+            $stmt->bindValue(':summary',       $course->summary);
+            $stmt->bindValue(':description',   $course->description);
+            $stmt->bindValue(':thumbnail_url', $course->thumbnail_url);
+            $stmt->bindValue(':category_id',   $course->category_id, $course->category_id ? PDO::PARAM_INT : PDO::PARAM_NULL);
+            $stmt->bindValue(':level',         $course->level);
+            $stmt->bindValue(':language',      $course->language);
+            $stmt->bindValue(':is_published',  $course->is_published, PDO::PARAM_INT);
+            $stmt->bindValue(':price_cents',   $course->price_cents,  PDO::PARAM_INT);
+            $stmt->execute();
+
+            $courseId = (int)$this->pdo->lastInsertId();
+
+            // 2️⃣ Inserir o instrutor (user_id padrão = 1)
+            $sql2 = "INSERT INTO course_instructors (course_id, user_id)
+                 VALUES (:course_id, :user_id)";
+            $stmt2 = $this->pdo->prepare($sql2);
+            $stmt2->bindValue(':course_id', $courseId, PDO::PARAM_INT);
+            $stmt2->bindValue(':user_id',   $userId,   PDO::PARAM_INT);
+            $stmt2->execute();
+
+            return $courseId;
+        
     }
+
 
     public function findByIdWithStructure(int $id): ?array
     {
