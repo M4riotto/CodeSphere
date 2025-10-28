@@ -20,37 +20,34 @@ class CourseRepository implements ICourseRepository
 
     public function create(Course $course, int $userId = 1): int
     {
-            // 1️⃣ Inserir o curso
-            $sql = "INSERT INTO courses
+        $sql = "INSERT INTO courses
             (title, slug, summary, description, thumbnail_url, category_id, level, language, is_published, price_cents, created_at)
             VALUES
             (:title, :slug, :summary, :description, :thumbnail_url, :category_id, :level, :language, :is_published, :price_cents, NOW())";
 
-            $stmt = $this->pdo->prepare($sql);
-            $stmt->bindValue(':title',         $course->title);
-            $stmt->bindValue(':slug',          $course->slug);
-            $stmt->bindValue(':summary',       $course->summary);
-            $stmt->bindValue(':description',   $course->description);
-            $stmt->bindValue(':thumbnail_url', $course->thumbnail_url);
-            $stmt->bindValue(':category_id',   $course->category_id, $course->category_id ? PDO::PARAM_INT : PDO::PARAM_NULL);
-            $stmt->bindValue(':level',         $course->level);
-            $stmt->bindValue(':language',      $course->language);
-            $stmt->bindValue(':is_published',  $course->is_published, PDO::PARAM_INT);
-            $stmt->bindValue(':price_cents',   $course->price_cents,  PDO::PARAM_INT);
-            $stmt->execute();
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':title',         $course->title);
+        $stmt->bindValue(':slug',          $course->slug);
+        $stmt->bindValue(':summary',       $course->summary);
+        $stmt->bindValue(':description',   $course->description);
+        $stmt->bindValue(':thumbnail_url', $course->thumbnail_url);
+        $stmt->bindValue(':category_id',   $course->category_id, $course->category_id ? PDO::PARAM_INT : PDO::PARAM_NULL);
+        $stmt->bindValue(':level',         $course->level);
+        $stmt->bindValue(':language',      $course->language);
+        $stmt->bindValue(':is_published',  $course->is_published, PDO::PARAM_INT);
+        $stmt->bindValue(':price_cents',   $course->price_cents,  PDO::PARAM_INT);
+        $stmt->execute();
 
-            $courseId = (int)$this->pdo->lastInsertId();
+        $courseId = (int)$this->pdo->lastInsertId();
 
-            // 2️⃣ Inserir o instrutor (user_id padrão = 1)
-            $sql2 = "INSERT INTO course_instructors (course_id, user_id)
+        $sql2 = "INSERT INTO course_instructors (course_id, user_id)
                  VALUES (:course_id, :user_id)";
-            $stmt2 = $this->pdo->prepare($sql2);
-            $stmt2->bindValue(':course_id', $courseId, PDO::PARAM_INT);
-            $stmt2->bindValue(':user_id',   $userId,   PDO::PARAM_INT);
-            $stmt2->execute();
+        $stmt2 = $this->pdo->prepare($sql2);
+        $stmt2->bindValue(':course_id', $courseId, PDO::PARAM_INT);
+        $stmt2->bindValue(':user_id',   $userId,   PDO::PARAM_INT);
+        $stmt2->execute();
 
-            return $courseId;
-        
+        return $courseId;
     }
 
 
@@ -58,9 +55,9 @@ class CourseRepository implements ICourseRepository
     {
         // 1) Curso + categoria
         $csql = "SELECT c.*, cat.name AS category_name
-                 FROM courses c
-                 LEFT JOIN course_categories cat ON cat.id = c.category_id
-                 WHERE c.id = ? LIMIT 1";
+             FROM courses c
+             LEFT JOIN course_categories cat ON cat.id = c.category_id
+             WHERE c.id = ? LIMIT 1";
         $cst = $this->pdo->prepare($csql);
         $cst->execute([$id]);
         $course = $cst->fetch(PDO::FETCH_ASSOC);
@@ -68,43 +65,69 @@ class CourseRepository implements ICourseRepository
 
         // 2) Módulos
         $msql = "SELECT id, title, position
-                 FROM course_modules
-                 WHERE course_id = ?
-                 ORDER BY position ASC, id ASC";
+             FROM course_modules
+             WHERE course_id = ?
+             ORDER BY position ASC, id ASC";
         $mst = $this->pdo->prepare($msql);
         $mst->execute([$id]);
         $modules = $mst->fetchAll(PDO::FETCH_ASSOC);
 
-        // 3) Aulas por módulo (em 1 query se possível)
+        // 3) Aulas por módulo (1 query)
         $moduleIds = array_column($modules, 'id');
         $lessonsByModule = [];
         $totalDuration = 0;
+        $totalLessons   = 0;
 
-        if ($moduleIds) {
-            $in = implode(',', array_fill(0, count($moduleIds), '?'));
+        if (!empty($moduleIds)) {
+            $in   = implode(',', array_fill(0, count($moduleIds), '?'));
             $lsql = "SELECT l.id, l.module_id, l.title, l.slug, l.duration_sec, l.position, l.is_preview, l.video_url
-                     FROM lessons l
-                     WHERE l.module_id IN ($in)
-                     ORDER BY l.module_id ASC, l.position ASC, l.id ASC";
-            $params = $moduleIds;
+                 FROM lessons l
+                 WHERE l.module_id IN ($in)
+                 ORDER BY l.module_id ASC, l.position ASC, l.id ASC";
             $lst = $this->pdo->prepare($lsql);
-            $lst->execute($params);
+            $lst->execute($moduleIds);
+
             while ($row = $lst->fetch(PDO::FETCH_ASSOC)) {
                 $lessonsByModule[$row['module_id']][] = $row;
                 $totalDuration += (int)$row['duration_sec'];
+                $totalLessons++;
             }
         }
 
-        // Monta estrutura final
+        // Monta módulos com suas aulas
         foreach ($modules as &$m) {
             $m['lessons'] = $lessonsByModule[$m['id']] ?? [];
         }
+        unset($m);
 
-        $course['modules'] = $modules;
-        $course['total_duration_sec'] = $totalDuration;
+        // 4) Instrutores (course_instructors → user_profiles)
+        // Se tiver uma coluna de ordenação em course_instructors (ex: position), use no ORDER BY.
+        $isql = "SELECT 
+                up.user_id,
+                up.full_name,
+                up.bio,
+                up.avatar_url   AS avatar,
+                up.city,
+                up.state,
+                up.country,
+                up.created_at
+             FROM course_instructors ci
+             INNER JOIN user_profiles up ON up.user_id = ci.user_id
+             WHERE ci.course_id = ?
+             ORDER BY  up.full_name ASC";
+        $ist = $this->pdo->prepare($isql);
+        $ist->execute([$id]);
+        $instructors = $ist->fetchAll(PDO::FETCH_ASSOC);
+
+        // 5) Estrutura final
+        $course['modules']              = $modules;
+        $course['total_duration_sec']   = $totalDuration;
+        $course['total_lessons']        = $totalLessons;
+        $course['instructors']          = $instructors;
 
         return $course;
     }
+
 
     public function findBySlugWithStructure(string $slug): ?array
     {

@@ -313,30 +313,19 @@ const loadCourseFromQuery = async () => {
         if (!json.success) throw new Error(json.message || "Falha ao carregar curso");
         const c = json.data;
 
-        // Título / header
-        document.title = `Curso • ${c.title}`;
-        const h1 = document.querySelector("h1");
-        if (h1) h1.textContent = c.title;
+        const Tlessons = c.modules.map(m => m.lessons.length).reduce((a, b) => a+b, 0)
 
-        // Badge de categoria
-        const badge = document.querySelector("span.inline-flex.gradient-gold");
-        if (badge) badge.textContent = c.category || "Geral";
-
-        // Resumo
-        const pSummary = document.querySelector("p.text-lg.text-muted-foreground");
-        if (pSummary && c.summary) pSummary.textContent = c.summary;
-
-        // Imagem
-        const heroImg = document.querySelector("img[alt]");
-        if (heroImg && c.thumbnail_url) heroImg.src = c.thumbnail_url;
-
-        // Preço (sidebar)
-        const priceHeader = document.querySelector(".lg\\:col-span-1 .text-4xl.font-bold");
-        if (priceHeader) priceHeader.textContent = c.price_brl;
-
-        // Duração total
-        const durEl = qsa(".flex.items-center.gap-2 span").find(s => /(\bh\b|\bmin\b)/.test(s.textContent));
-        if (durEl) durEl.textContent = `${c.total_duration_text} de conteúdo`;
+        document.getElementById("title").textContent = c.title;
+        document.getElementById("description").textContent = c.summary;
+        document.getElementById("badge-category").textContent = c.category;
+        document.getElementById("duration").textContent = c.total_duration_text;
+        document.getElementById("students").textContent = c.students || 1;
+        document.getElementById("rating").textContent = c.rating || 4.8;
+        document.getElementById("thumbnail").src = c.thumbnail_url || './public/src/assets/course-business.jpg';
+        document.getElementById("price").textContent = c.price_brl;
+        document.getElementById("qtdClass").textContent = Tlessons + ' aulas';
+        document.getElementById("instructor-name").textContent = c.instructors[0].full_name;
+        document.getElementById("instructor-bio").textContent = c.instructors[0].bio;
 
         // Accordion
         if (el.accordion) {

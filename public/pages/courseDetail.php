@@ -1,5 +1,3 @@
-
-
 <!doctype html>
 <html lang="pt-br">
 
@@ -38,7 +36,7 @@
   </style>
 </head>
 
-<body class="bg-background text-foreground antialiased" >
+<body class="bg-background text-foreground antialiased">
 
   <?php require_once '../components/header.php' ?>
 
@@ -46,32 +44,35 @@
   <div class="min-h-screen pb-12">
     <div class="container mx-auto px-4 lg:px-8 pt-24">
       <div class="grid lg:grid-cols-3 gap-8">
+
         <!-- Main Content -->
         <div class="lg:col-span-2">
+
           <!-- Course Header -->
           <div class="mb-8">
-            <!-- <Badge className="mb-4 gradient-gold border-0">{course.category}</Badge> -->
             <span
-              class="inline-flex items-center mb-4 px-3 py-1 rounded-full gradient-gold text-black text-xs font-semibold border-0">Negócios</span>
+              id="badge-category"
+              class="inline-flex items-center mb-4 px-3 py-1 rounded-full gradient-gold text-black text-xs font-semibold border-0">
+              Categoria
+            </span>
 
-            <h1 class="text-4xl font-bold mb-4">Gestão Empresarial Avançada</h1>
-            <p class="text-lg text-muted-foreground mb-6">
-              Domine estratégias de gestão e liderança para transformar sua carreira executiva com este curso completo e
-              prático.
+            <h1 id="title" class="text-4xl font-bold mb-4">Título do Curso</h1>
+            <p id="description" class="text-lg text-muted-foreground mb-6">
+              Resumo ou descrição breve do curso.
             </p>
 
             <div class="flex flex-wrap gap-6 text-sm">
               <div class="flex items-center gap-2">
                 <i data-lucide="clock" class="h-4 w-4 text-primary"></i>
-                <span>40h de conteúdo</span>
+                <span id="duration">0h de conteúdo</span>
               </div>
               <div class="flex items-center gap-2">
                 <i data-lucide="users" class="h-4 w-4 text-primary"></i>
-                <span>2400 alunos</span>
+                <span id="students">0 alunos</span>
               </div>
               <div class="flex items-center gap-2">
                 <i data-lucide="star" class="h-4 w-4 text-[#ffb600] fill-[#ffb600]"></i>
-                <span>4.9 avaliação</span>
+                <span id="rating">0.0 avaliação</span>
               </div>
               <div class="flex items-center gap-2">
                 <i data-lucide="award" class="h-4 w-4 text-secondary"></i>
@@ -82,7 +83,7 @@
 
           <!-- Course Image -->
           <div class="relative rounded-xl overflow-hidden mb-8 shadow-premium">
-            <img src="./public/src/assets/course-business.jpg" alt="Gestão Empresarial Avançada"
+            <img id="thumbnail" src="./public/src/assets/course-business.jpg" alt="Imagem do Curso"
               class="w-full h-80 object-cover">
             <div class="absolute inset-0 flex items-center justify-center bg-background/40 backdrop-blur-sm">
               <i data-lucide="play-circle"
@@ -96,153 +97,23 @@
               <h2 class="text-xl font-semibold">Conteúdo do Curso</h2>
             </div>
             <div class="p-6">
-              <div class="w-full" id="accordion">
-                <!-- Módulo 1 -->
-                <div class="border-b border-border/50">
-                  <button class="w-full flex items-center justify-between py-4 hover:text-primary" data-acc="m1">
-                    <span class="font-semibold text-left">Módulo 1: Fundamentos da Gestão</span>
-                    <svg class="h-5 w-5 transition-transform" data-acc-icon="m1" viewBox="0 0 24 24" fill="none"
-                      stroke="currentColor">
-                      <path d="m6 9 6 6 6-6" />
-                    </svg>
-                  </button>
-                  <div class="hidden pb-5 space-y-2" data-acc-panel="m1">
-                    <!-- lições -->
-                    <a href="/courses/1/lesson/1"
-                      class="flex items-center justify-between p-3 rounded-lg hover:bg-primary/10 transition-smooth">
-                      <div class="flex items-center gap-3">
-                        <i data-lucide="play-circle" class="h-4 w-4 text-primary"></i>
-                        <span class="text-sm">Introdução à Gestão Moderna</span>
-                      </div>
-                      <div class="flex items-center gap-2">
-                        <span class="text-xs text-muted-foreground">15min</span>
-                      </div>
-                    </a>
-                    <a href="/courses/1/lesson/2"
-                      class="flex items-center justify-between p-3 rounded-lg hover:bg-primary/10 transition-smooth">
-                      <div class="flex items-center gap-3">
-                        <i data-lucide="play-circle" class="h-4 w-4 text-primary"></i>
-                        <span class="text-sm">Princípios de Liderança</span>
-                      </div>
-                      <div class="flex items-center gap-2">
-                        <span class="text-xs text-muted-foreground">20min</span>
-                      </div>
-                    </a>
-                    <a href="/courses/1/lesson/3"
-                      class="flex items-center justify-between p-3 rounded-lg hover:bg-primary/10 transition-smooth">
-                      <div class="flex items-center gap-3">
-                        <i data-lucide="file-text" class="h-4 w-4 text-secondary"></i>
-                        <span class="text-sm">Exercício Prático</span>
-                      </div>
-                      <div class="flex items-center gap-2">
-                        <span class="text-xs text-muted-foreground">30min</span>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-
-                <!-- Módulo 2 -->
-                <div class="border-b border-border/50">
-                  <button class="w-full flex items-center justify-between py-4 hover:text-primary" data-acc="m2">
-                    <span class="font-semibold text-left">Módulo 2: Estratégia Empresarial</span>
-                    <svg class="h-5 w-5 transition-transform" data-acc-icon="m2" viewBox="0 0 24 24" fill="none"
-                      stroke="currentColor">
-                      <path d="m6 9 6 6 6-6" />
-                    </svg>
-                  </button>
-                  <div class="hidden pb-5 space-y-2" data-acc-panel="m2">
-                    <a href="/courses/1/lesson/4"
-                      class="flex items-center justify-between p-3 rounded-lg hover:bg-primary/10 transition-smooth">
-                      <div class="flex items-center gap-3">
-                        <i data-lucide="play-circle" class="h-4 w-4 text-primary"></i>
-                        <span class="text-sm">Análise SWOT</span>
-                      </div>
-                      <div class="flex items-center gap-2">
-                        <span class="text-xs text-muted-foreground">25min</span>
-                      </div>
-                    </a>
-                    <a href="#"
-                      class="flex items-center justify-between p-3 rounded-lg opacity-50 cursor-not-allowed transition-smooth">
-                      <div class="flex items-center gap-3">
-                        <i data-lucide="play-circle" class="h-4 w-4 text-primary"></i>
-                        <span class="text-sm">Planejamento Estratégico</span>
-                      </div>
-                      <div class="flex items-center gap-2">
-                        <span class="text-xs text-muted-foreground">30min</span>
-                        <i data-lucide="lock" class="h-3 w-3"></i>
-                      </div>
-                    </a>
-                    <a href="#"
-                      class="flex items-center justify-between p-3 rounded-lg opacity-50 cursor-not-allowed transition-smooth">
-                      <div class="flex items-center gap-3">
-                        <i data-lucide="file-text" class="h-4 w-4 text-secondary"></i>
-                        <span class="text-sm">Estudo de Caso</span>
-                      </div>
-                      <div class="flex items-center gap-2">
-                        <span class="text-xs text-muted-foreground">45min</span>
-                        <i data-lucide="lock" class="h-3 w-3"></i>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-
-                <!-- Módulo 3 -->
-                <div class="border-b border-border/50">
-                  <button class="w-full flex items-center justify-between py-4 hover:text-primary" data-acc="m3">
-                    <span class="font-semibold text-left">Módulo 3: Gestão de Pessoas</span>
-                    <svg class="h-5 w-5 transition-transform" data-acc-icon="m3" viewBox="0 0 24 24" fill="none"
-                      stroke="currentColor">
-                      <path d="m6 9 6 6 6-6" />
-                    </svg>
-                  </button>
-                  <div class="hidden pb-5 space-y-2" data-acc-panel="m3">
-                    <a href="#"
-                      class="flex items-center justify-between p-3 rounded-lg opacity-50 cursor-not-allowed transition-smooth">
-                      <div class="flex items-center gap-3">
-                        <i data-lucide="play-circle" class="h-4 w-4 text-primary"></i>
-                        <span class="text-sm">Motivação e Engajamento</span>
-                      </div>
-                      <div class="flex items-center gap-2">
-                        <span class="text-xs text-muted-foreground">20min</span>
-                        <i data-lucide="lock" class="h-3 w-3"></i>
-                      </div>
-                    </a>
-                    <a href="#"
-                      class="flex items-center justify-between p-3 rounded-lg opacity-50 cursor-not-allowed transition-smooth">
-                      <div class="flex items-center gap-3">
-                        <i data-lucide="play-circle" class="h-4 w-4 text-primary"></i>
-                        <span class="text-sm">Feedback Efetivo</span>
-                      </div>
-                      <div class="flex items-center gap-2">
-                        <span class="text-xs text-muted-foreground">18min</span>
-                        <i data-lucide="lock" class="h-3 w-3"></i>
-                      </div>
-                    </a>
-                    <a href="#"
-                      class="flex items-center justify-between p-3 rounded-lg opacity-50 cursor-not-allowed transition-smooth">
-                      <div class="flex items-center gap-3">
-                        <i data-lucide="file-text" class="h-4 w-4 text-secondary"></i>
-                        <span class="text-sm">Avaliação de Performance</span>
-                      </div>
-                      <div class="flex items-center gap-2">
-                        <span class="text-xs text-muted-foreground">40min</span>
-                        <i data-lucide="lock" class="h-3 w-3"></i>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-              </div> <!-- /accordion -->
+              <div id="accordion" class="w-full">
+                <!-- Módulos serão renderizados via JS -->
+              </div>
             </div>
           </div>
         </div>
 
         <!-- Sidebar -->
         <div class="lg:col-span-1">
-          <div class="rounded-2xl border border-border/50 bg-card/50 backdrop-blur sticky top-24">
+          <div id="card"
+            class="rounded-2xl border border-border/50 bg-card/50 backdrop-blur sticky top-24">
             <div class="p-6">
               <div class="text-center mb-6">
-                <div class="text-4xl font-bold gradient-gold bg-clip-text text-transparent mb-2">R$ 497</div>
-                <p class="text-sm text-muted-foreground">Acesso vitalício</p>
+                <div id="price" class="text-4xl font-bold gradient-gold bg-clip-text text-transparent mb-2">
+                  R$ 0,00
+                </div>
+                <p id="price-note" class="text-sm text-muted-foreground">Acesso vitalício</p>
               </div>
 
               <a href="#comprar"
@@ -265,7 +136,7 @@
                 </div>
                 <div class="flex items-center gap-3">
                   <i data-lucide="play-circle" class="h-5 w-5 text-primary"></i>
-                  <span>32 aulas em vídeo</span>
+                  <span id="qtdClass">32 aulas em vídeo</span>
                 </div>
                 <div class="flex items-center gap-3">
                   <i data-lucide="file-text" class="h-5 w-5 text-secondary"></i>
@@ -282,23 +153,28 @@
           </div>
 
           <!-- Instructor -->
-          <div class="rounded-2xl border border-border/50 bg-card/50 backdrop-blur mt-6">
+          <div id="resume_instructor"
+            class="rounded-2xl border border-border/50 bg-card/50 backdrop-blur mt-6">
             <div class="px-6 pt-6">
               <h3 class="text-lg font-semibold">Instrutor</h3>
             </div>
             <div class="p-6">
-              <p class="font-semibold mb-1">Dr. Carlos Silva</p>
-              <p class="text-sm text-muted-foreground">MBA em Harvard, 20 anos de experiência em gestão executiva</p>
+              <p id="instructor-name" class="font-semibold mb-1">Nome do Instrutor</p>
+              <p id="instructor-bio" class="text-sm text-muted-foreground">
+                Resumo do instrutor ou biografia breve.
+              </p>
             </div>
           </div>
         </div>
+
       </div>
     </div>
   </div>
 
+
   <script src="./public/src/js/tailwind.config.js"></script>
   <script src="./public/src/js/ui.js"></script>
-  <script src="./public/src/js/main.js"></script>
+  <script src="./public/src/js/main.js?v<?php echo time() ?>"></script>
   <script>
     // Lucide
     window.lucide && window.lucide.createIcons();

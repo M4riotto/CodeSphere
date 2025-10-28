@@ -43,6 +43,7 @@ try {
             'total_duration_sec'  => $durSec,
             'total_duration_text' => $durLabel,
             'modules'         => $data['modules'],
+            'instructors'         => $data['instructors'],
         ]
     ], JSON_UNESCAPED_UNICODE);
 
