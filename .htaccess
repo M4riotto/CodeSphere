@@ -1,0 +1,17 @@
+# Ativa o mecanismo de reescrita
+RewriteEngine On
+
+# Define a base (ajuste o caminho do projeto conforme necessário)
+RewriteBase /codesphere/
+
+# Se o arquivo ou diretório já existir, não reescreve
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Redireciona URLs simples para os arquivos PHP dentro de /public/pages/
+RewriteCond %{DOCUMENT_ROOT}/codesphere/public/pages/$1.php -f
+RewriteRule ^([^/]+)/?$ public/pages/$1.php [L,QSA]
+
+# Opcional: página 404 personalizada
+ErrorDocument 404 /codesphere/public/pages/404.php
