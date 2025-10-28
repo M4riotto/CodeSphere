@@ -165,7 +165,5 @@ Este projeto está sob a licença **MIT** — você pode usar e modificar livrem
 ---
 
 <p align="center">
-  Feito com ❤️ por <b>Cássio Moreira</b> <br>
-  <a href="https://www.instagram.com/cassiomoreira.oficial" target="_blank">Instagram</a> |
-  <a href="https://linkedin.com/in/cassiomoreira" target="_blank">LinkedIn</a>
+  Feito com ❤️ por <b>Vítor Mariotto</b> <br>
 </p>
