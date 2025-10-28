@@ -1,3 +1,5 @@
+
+
 <!doctype html>
 <html lang="pt-br">
 
@@ -36,7 +38,7 @@
   </style>
 </head>
 
-<body class="bg-background text-foreground antialiased">
+<body class="bg-background text-foreground antialiased" >
 
   <?php require_once '../components/header.php' ?>
 
@@ -296,6 +298,7 @@
 
   <script src="./public/src/js/tailwind.config.js"></script>
   <script src="./public/src/js/ui.js"></script>
+  <script src="./public/src/js/main.js"></script>
   <script>
     // Lucide
     window.lucide && window.lucide.createIcons();

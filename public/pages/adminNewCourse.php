@@ -8,7 +8,7 @@
 
   <!-- Fonte do seu tailwind.config -->
   <link href="https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;600;700;800;900&display=swap"
-    rel="stylesheet">
+        rel="stylesheet">
 
   <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -18,35 +18,16 @@
 
   <!-- Utilitárias equivalentes (sem @apply) -->
   <style>
-    .text-muted-foreground {
-      color: #d4d4d4;
-    }
-
-    .gradient-gold {
-      background-image: linear-gradient(135deg, #ffb600, #ffcf66);
-    }
-
-    .shadow-premium {
-      box-shadow: 0 12px 40px -10px rgba(0, 0, 0, 0.6);
-    }
-
-    .transition-smooth {
-      transition: all .4s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .text-destructive {
-      color: #ff4444;
-    }
-
-    .hover\:text-destructive:hover {
-      color: #ff4444;
-    }
+    .text-muted-foreground { color: #d4d4d4; }
+    .gradient-gold { background-image: linear-gradient(135deg, #ffb600, #ffcf66); }
+    .shadow-premium { box-shadow: 0 12px 40px -10px rgba(0, 0, 0, 0.6); }
+    .transition-smooth { transition: all .4s cubic-bezier(0.4,0,0.2,1); }
+    .text-destructive { color:#ff4444; }
+    .hover\:text-destructive:hover { color:#ff4444; }
   </style>
 </head>
 
 <body class="bg-background text-foreground antialiased">
-  <!-- Navbar (equivalente ao <Navbar />) -->
-
   <?php require_once '../components/header.php' ?>
 
   <!-- Admin New Course -->
@@ -68,21 +49,21 @@
           <div class="p-6 space-y-4">
             <div class="grid md:grid-cols-2 gap-4">
               <div class="space-y-2">
-                <label class="block text-sm">Título do Curso</label>
-                <input type="text" placeholder="Ex: Gestão Empresarial Avançada"
+                <label for="titleInput" class="block text-sm">Título do Curso</label>
+                <input id="titleInput" type="text" placeholder="Ex: Gestão Empresarial Avançada"
                   class="w-full bg-background/50 rounded-2xl border border-border/60 px-3 py-2 outline-none focus:ring-2 focus:ring-primary" />
               </div>
               <div class="space-y-2">
-                <label class="block text-sm">Categoria</label>
-                <!-- Select -->
+                <label for="categorySelect" class="block text-sm">Categoria</label>
                 <div class="relative">
-                  <select
+                  <!-- use IDs reais do banco quando popular dinamicamente -->
+                  <select id="categorySelect"
                     class="appearance-none w-full bg-background/50 rounded-2xl border border-border/60 px-3 py-2 pr-8 outline-none focus:ring-2 focus:ring-primary">
                     <option value="" selected disabled>Selecione uma categoria</option>
-                    <option value="business">Negócios</option>
-                    <option value="tech">Tecnologia</option>
-                    <option value="design">Design</option>
-                    <option value="marketing">Marketing</option>
+                    <option value="1">Negócios</option>
+                    <option value="2">Tecnologia</option>
+                    <option value="3">Design</option>
+                    <option value="4">Marketing</option>
                   </select>
                   <svg class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 opacity-70"
                     viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -93,26 +74,28 @@
             </div>
 
             <div class="space-y-2">
-              <label class="block text-sm">Descrição</label>
-              <textarea placeholder="Descreva o curso e o que os alunos vão aprender..."
+              <label for="descriptionInput" class="block text-sm">Descrição</label>
+              <textarea id="descriptionInput" placeholder="Descreva o curso e o que os alunos vão aprender..."
                 class="w-full min-h-24 bg-background/50 rounded-2xl border border-border/60 px-3 py-2 outline-none focus:ring-2 focus:ring-primary"></textarea>
+              <p class="text-xs text-muted-foreground">A primeira frase será usada como resumo (máx. ~240 caracteres).</p>
             </div>
 
             <div class="grid md:grid-cols-3 gap-4">
               <div class="space-y-2">
-                <label class="block text-sm">Preço (R$)</label>
-                <input type="number" placeholder="497"
+                <label for="priceInput" class="block text-sm">Preço (R$)</label>
+                <input id="priceInput" type="number" placeholder="497" min="0" step="0.01"
                   class="w-full bg-background/50 rounded-2xl border border-border/60 px-3 py-2 outline-none focus:ring-2 focus:ring-primary" />
               </div>
               <div class="space-y-2">
-                <label class="block text-sm">Duração (horas)</label>
-                <input type="number" placeholder="40"
+                <label for="durationHoursInput" class="block text-sm">Duração (horas)</label>
+                <input id="durationHoursInput" type="number" placeholder="40" min="0"
                   class="w-full bg-background/50 rounded-2xl border border-border/60 px-3 py-2 outline-none focus:ring-2 focus:ring-primary" />
+                <p class="text-xs text-muted-foreground">Opcional. A duração real virá da soma das aulas.</p>
               </div>
               <div class="space-y-2">
-                <label class="block text-sm">Nível</label>
+                <label for="levelSelect" class="block text-sm">Nível</label>
                 <div class="relative">
-                  <select
+                  <select id="levelSelect"
                     class="appearance-none w-full bg-background/50 rounded-2xl border border-border/60 px-3 py-2 pr-8 outline-none focus:ring-2 focus:ring-primary">
                     <option value="" selected disabled>Nível</option>
                     <option value="beginner">Iniciante</option>
@@ -131,11 +114,13 @@
               <label class="block text-sm">Imagem do Curso</label>
               <label
                 class="block border-2 border-dashed border-border rounded-lg p-8 text-center hover:border-primary/50 transition-smooth cursor-pointer">
-                <input type="file" accept="image/png,image/jpeg" class="hidden" />
+                <input id="imageInput" type="file" accept="image/png,image/jpeg" class="hidden" />
                 <i data-lucide="upload" class="h-8 w-8 mx-auto mb-2 text-muted-foreground"></i>
                 <p class="text-sm text-muted-foreground">Clique para fazer upload ou arraste a imagem aqui</p>
                 <p class="text-xs text-muted-foreground mt-1">PNG, JPG até 5MB</p>
               </label>
+              <input id="thumbnailUrlInput" type="text" placeholder="Ou cole aqui uma URL pública da imagem"
+                     class="w-full bg-background/50 rounded-2xl border border-border/60 px-3 py-2 outline-none focus:ring-2 focus:ring-primary" />
             </div>
           </div>
         </section>
@@ -152,17 +137,17 @@
           </div>
 
           <div id="modulesContainer" class="p-6 space-y-6">
-            <!-- Módulos serão inseridos aqui via JS -->
+            <!-- Módulos via JS -->
           </div>
         </section>
 
         <!-- Actions -->
         <div class="flex gap-4">
-          <a href="#"
+          <a href="#" id="publishBtn"
             class="inline-flex items-center justify-center rounded-2xl px-5 py-3 bg-primary text-white hover:bg-primary/90 transition text-lg">
             Publicar Curso
           </a>
-          <a href="#"
+          <a href="#" id="draftBtn"
             class="inline-flex items-center justify-center rounded-2xl px-5 py-3 border border-border/60 hover:bg-white/5 transition text-lg">
             Salvar Rascunho
           </a>
@@ -173,106 +158,18 @@
 
   <script src="./public/src/js/tailwind.config.js"></script>
   <script src="./public/src/js/ui.js"></script>
+  <script src="./public/src/js/main.js"></script>
 
   <script>
-    // Lucide + Mobile nav
+   
+    // ---------- Navbar + Icons ----------
     window.lucide && window.lucide.createIcons();
     const menuBtn = document.getElementById('menuBtn');
     const mobileNav = document.getElementById('mobileNav');
     if (menuBtn && mobileNav) menuBtn.addEventListener('click', () => mobileNav.classList.toggle('hidden'));
 
-    // ----- Dinâmica de módulos/aulas (equivalente ao useState) -----
-    const modulesContainer = document.getElementById('modulesContainer');
-    const addModuleBtn = document.getElementById('addModuleBtn');
-
-    let moduleCount = 0;
-
-    function createModuleElement(moduleId, indexLabel) {
-      const wrap = document.createElement('div');
-      wrap.className = 'p-4 rounded-lg bg-background/30 space-y-4';
-      wrap.dataset.moduleId = moduleId;
-
-      wrap.innerHTML = `
-        <div class="flex items-start gap-4">
-          <div class="flex-1 space-y-2">
-            <label class="block text-sm">Módulo ${indexLabel}</label>
-            <input type="text" placeholder="Nome do módulo" class="w-full bg-background/50 rounded-2xl border border-border/60 px-3 py-2 outline-none focus:ring-2 focus:ring-primary" />
-          </div>
-          <button type="button" class="remove-module inline-flex items-center justify-center rounded-xl size-9 hover:bg-white/5 transition text-destructive hover:text-destructive" title="Remover módulo">
-            <i data-lucide="x" class="h-4 w-4"></i>
-          </button>
-        </div>
-
-        <div class="pl-4 space-y-3" data-lessons></div>
-
-        <button type="button" class="add-lesson inline-flex items-center rounded-2xl px-3 py-2 border border-border/60 hover:bg-white/5 text-sm w-full transition">
-          <i data-lucide="plus" class="mr-2 h-4 w-4"></i>
-          Adicionar Aula
-        </button>
-      `;
-
-      // Primeiro lesson
-      const lessonsWrap = wrap.querySelector('[data-lessons]');
-      lessonsWrap.appendChild(createLessonElement(moduleId, 1));
-
-      // Eventos
-      wrap.querySelector('.remove-module').addEventListener('click', () => {
-        wrap.remove();
-      });
-
-      wrap.querySelector('.add-lesson').addEventListener('click', () => {
-        const count = lessonsWrap.querySelectorAll('[data-lesson-id]').length + 1;
-        lessonsWrap.appendChild(createLessonElement(moduleId, count));
-        refreshIcons();
-      });
-
-      return wrap;
-    }
-
-    function createLessonElement(moduleId, lessonIndex) {
-      const row = document.createElement('div');
-      row.className = 'flex items-center gap-3';
-      row.dataset.lessonId = `${moduleId}-${lessonIndex}`;
-
-      row.innerHTML = `
-        <input type="text" placeholder="Aula ${lessonIndex}" class="flex-1 bg-background/50 rounded-2xl border border-border/60 px-3 py-2 outline-none focus:ring-2 focus:ring-primary" />
-
-        <div class="relative">
-          <select class="appearance-none w-32 bg-background/50 rounded-2xl border border-border/60 px-3 py-2 pr-8 outline-none focus:ring-2 focus:ring-primary">
-            <option value="video" selected>Vídeo</option>
-            <option value="activity">Atividade</option>
-            <option value="text">Texto</option>
-          </select>
-          <svg class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 opacity-70" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m6 9 6 6 6-6"/></svg>
-        </div>
-
-        <button type="button" class="inline-flex items-center justify-center rounded-xl size-9 hover:bg-white/5 transition" title="Upload">
-          <i data-lucide="upload" class="h-4 w-4"></i>
-        </button>
-        <button type="button" class="remove-lesson inline-flex items-center justify-center rounded-xl size-9 hover:bg-white/5 transition text-destructive hover:text-destructive" title="Remover aula">
-          <i data-lucide="x" class="h-4 w-4"></i>
-        </button>
-      `;
-
-      row.querySelector('.remove-lesson').addEventListener('click', () => row.remove());
-      return row;
-    }
-
-    function addModule() {
-      moduleCount += 1;
-      const moduleEl = createModuleElement(String(moduleCount), moduleCount);
-      modulesContainer.appendChild(moduleEl);
-      refreshIcons();
-    }
-
-    function refreshIcons() {
-      window.lucide && window.lucide.createIcons();
-    }
-
-    // Inicial: 1 módulo com 1 aula
-    addModule();
-    addModuleBtn.addEventListener('click', addModule);
+    // ---------- Campos ----------
+ 
   </script>
 </body>
-
 </html>
