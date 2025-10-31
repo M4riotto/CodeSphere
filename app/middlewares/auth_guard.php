@@ -7,8 +7,10 @@ function require_auth_or_403()
     print_r($auth->getCurrentUser());
     if (!$auth->isLogged()) {
         http_response_code(403);
-        header('Content-Type: application/json; charset=utf-8');
-        echo json_encode(['success' => false, 'message' => 'Forbidden']);
+        if (!$auth->isLogged()) {
+            header('Location: ./403.php');
+            exit;
+        }
         exit;
     }
 }

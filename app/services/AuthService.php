@@ -34,9 +34,7 @@ class AuthService
 
     public function logout(?string $hash = null): bool
     {
-        if (!$hash && method_exists($this->auth, 'getSessionHash')) {
-            $hash = $this->auth->getCurrentSessionHash();
-        }
+        $hash = $this->auth->getCurrentSessionHash();
         return $hash ? $this->auth->logout($hash) : false;
     }
 
