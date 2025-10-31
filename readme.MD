@@ -36,7 +36,7 @@
 ---
 
 ## 📂 Estrutura do Projeto
-\`\`\`bash
+\`\`\`
 codesphere/
 ├── app/
 │   ├── core/                # Entidades e Regras de Negócio
