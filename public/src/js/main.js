@@ -263,6 +263,69 @@ const buildPayload = (publish = true) => {
     return payload;
 };
 
+
+async function login(event) {
+    event.preventDefault()
+    const form = event.target;
+    const formData = new FormData(form);
+
+    try {
+        const response = await fetch(`./app/routes/auth/auth_login.php`, {
+            method: 'POST',
+            body: formData
+        })
+        const result = await response.json();
+        if (result?.success) {
+            // alert('Login feito com sucesso!');
+            // toastr('Login realizado com Sucesso', 'success')
+            window.location.href = './myDashboard';
+        } else {
+            alert(result?.message || 'Falha no login.');
+        }
+    } catch (err) {
+        console.error(err);
+        alert('Erro ao tentar logar.');
+    }
+}
+
+const logout = async () => {
+    try {
+        const resp = await fetch('./app/routes/auth/auth_logout.php')
+        const result = await resp.json()
+
+        console.log(result)
+        if (result?.success) {
+            window.location.href = './index';
+        }
+    } catch (error) {
+
+    }
+}
+
+async function register(event) {
+    event.preventDefault()
+    const form = event.target;
+    const formData = new FormData(form);
+
+    try {
+        const response = await fetch(`./app/routes/auth/auth_register.php`, {
+            method: 'POST',
+            body: formData
+        })
+        const result = await response.json();
+        if (result?.success) {
+            // alert('Login feito com sucesso!');
+            // toastr('Login realizado com Sucesso', 'success')
+            window.location.href = './login';
+        } else {
+            alert(result?.message || 'Falha no registro.');
+        }
+    } catch (err) {
+        console.error(err);
+        alert('Erro ao tentar logar.');
+    }
+}
+
 // -----------------------------
 // Submit (criar curso)
 // -----------------------------
@@ -313,7 +376,7 @@ const loadCourseFromQuery = async () => {
         if (!json.success) throw new Error(json.message || "Falha ao carregar curso");
         const c = json.data;
 
-        const Tlessons = c.modules.map(m => m.lessons.length).reduce((a, b) => a+b, 0)
+        const Tlessons = c.modules.map(m => m.lessons.length).reduce((a, b) => a + b, 0)
 
         document.getElementById("title").textContent = c.title;
         document.getElementById("description").textContent = c.summary;
@@ -495,3 +558,21 @@ if (el.grid) fetchCourses();
 
 // Se existir alvo de detalhe, tenta carregar por id/slug
 loadCourseFromQuery();
+
+// toastr.options = {
+//     "closeButton": true,              // botão de fechar
+//     "debug": false,
+//     "newestOnTop": true,
+//     "progressBar": true,             // barra de progresso
+//     "positionClass": "toast-top-right",  // posição na tela
+//     "preventDuplicates": true,
+//     "onclick": null,
+//     "showDuration": "300",           // tempo da animação de entrada (ms)
+//     "hideDuration": "300",          // tempo da animação de saída (ms)
+//     "timeOut": "1000",               // tempo até desaparecer (ms) — 5 segundos
+//     "extendedTimeOut": "1000",       // tempo extra se o mouse estiver em cima
+//     "showEasing": "swing",
+//     "hideEasing": "linear",
+//     "showMethod": "fadeIn",
+//     "hideMethod": "fadeOut"
+// };

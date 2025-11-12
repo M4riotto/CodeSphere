@@ -67,7 +67,7 @@
   </div>
 
   <script src="./public/src/js/tailwind.config.js"></script>
-  <script src="./public/src/js/main.js"></script>
+  <script src="./public/src/js/main.js?v=2"></script>
   <script src="./public/src/js/ui.js?v=<?php echo time()?>"></script>
 
 </body>

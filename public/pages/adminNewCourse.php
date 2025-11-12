@@ -1,3 +1,8 @@
+<?php
+require_once __DIR__ . '/../../app/middlewares/auth_guard.php';
+require_auth_or_403();
+?>
+
 <!doctype html>
 <html lang="pt-br">
 
@@ -175,7 +180,7 @@
 
   <script src="./public/src/js/tailwind.config.js"></script>
 
-  <script src="./public/src/js/ui.js?v=<?php echo time()?>"></script>
+  <script src="./public/src/js/ui.js?v=<?php echo time() ?>"></script>
   <script src="./public/src/js/main.js"></script>
 
 </body>

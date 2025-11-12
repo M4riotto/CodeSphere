@@ -8,13 +8,9 @@ use ZxcvbnPhp\Zxcvbn;
 $zxcvbn = new Zxcvbn();
 $input = json_decode(file_get_contents('php://input'), true) ?: $_POST;
 $pass  = (string)($input['password_confirm'] ?? '');
-var_dump($pass);
+
 $strength = $zxcvbn->passwordStrength($pass);
 
-print_r($strength['feedback']);
-
-return $strength;
-exit;
 
 $input = json_decode(file_get_contents('php://input'), true) ?: $_POST;
 $email = trim($input['email'] ?? '');

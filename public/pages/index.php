@@ -274,7 +274,7 @@
   </footer>
 
   <script src="./public/src/js/tailwind.config.js"></script>
-  <script src="./public/src/js/ui.js?v=<?php echo time()?>"></script>
+  <script src="./public/src/js/ui.js?v=1.0.1"></script>
 </body>
 
 </html>

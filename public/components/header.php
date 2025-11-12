@@ -28,21 +28,23 @@ $svc = new AuthService();
             <a href="./courses" class="inline-flex items-center rounded-2xl px-4 py-2 bg-primary text-primary-foreground hover:bg-primary/90 transition">
                 Explorar Cursos
             </a>
-            <a href="./profile" class="inline-flex items-center rounded-2xl px-4 py-2 text-primary-foreground hover:bg-primary/90 transition">
+
+            <?php
+            if ($svc->isLogged()) {
+                echo (' 
+                 <a href="./profile" class="inline-flex items-center rounded-2xl px-4 py-2 text-primary-foreground hover:bg-primary/90 transition">
                 <i data-lucide="user"></i> Perfil
             </a>
-            <?php 
-                if($svc->isLogged()){
-                    echo(' <a href="./app/routes/auth/auth_logout.php" class="inline-flex items-center rounded-2xl px-4 py-2 text-primary-foreground hover:bg-primary/90 transition">
+            <a onclick="logout()" class="inline-flex items-center rounded-2xl px-4 py-2 text-primary-foreground hover:bg-primary/90 transition">
                             <i data-lucide="door-closed"></i> Sair
                         </a>');
-                }else{
-                    echo(' <a href="./login" class="inline-flex items-center rounded-2xl px-4 py-2 text-primary-foreground hover:bg-primary/90 transition">
+            } else {
+                echo (' <a href="./login" class="inline-flex items-center rounded-2xl px-4 py-2 text-primary-foreground hover:bg-primary/90 transition">
                             <i data-lucide="log-in"></i> Login
                         </a>');
-                }
+            }
             ?>
-           
+
         </div>
 
         <button id="menuBtn" class="md:hidden inline-flex items-center rounded-2xl px-3 py-2 ring-1 ring-white/10">
@@ -72,3 +74,5 @@ $svc = new AuthService();
         </div>
     </div>
 </header>
+
+<script src="./public/src/js/main.js?v=1.0.4"></script>
