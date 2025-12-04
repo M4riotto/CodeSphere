@@ -129,6 +129,84 @@ class CourseRepository implements ICourseRepository
     }
 
 
+    public function findByCoursesAdminWithStructure(int $id): ?array
+    {
+        // 1) Curso + categoria
+        $csql = "SELECT c.*, cat.name AS category_name
+             FROM courses c
+             LEFT JOIN course_categories cat ON cat.id = c.category_id
+             WHERE c.id = ? LIMIT 1";
+        $cst = $this->pdo->prepare($csql);
+        $cst->execute([$id]);
+        $course = $cst->fetch(PDO::FETCH_ASSOC);
+        if (!$course) return null;
+
+        // 2) Módulos
+        $msql = "SELECT id, title, position
+             FROM course_modules
+             WHERE course_id = ?
+             ORDER BY position ASC, id ASC";
+        $mst = $this->pdo->prepare($msql);
+        $mst->execute([$id]);
+        $modules = $mst->fetchAll(PDO::FETCH_ASSOC);
+
+        // 3) Aulas por módulo (1 query)
+        $moduleIds = array_column($modules, 'id');
+        $lessonsByModule = [];
+        $totalDuration = 0;
+        $totalLessons   = 0;
+
+        if (!empty($moduleIds)) {
+            $in   = implode(',', array_fill(0, count($moduleIds), '?'));
+            $lsql = "SELECT l.id, l.module_id, l.title, l.slug, l.duration_sec, l.position, l.is_preview, l.video_url
+                 FROM lessons l
+                 WHERE l.module_id IN ($in)
+                 ORDER BY l.module_id ASC, l.position ASC, l.id ASC";
+            $lst = $this->pdo->prepare($lsql);
+            $lst->execute($moduleIds);
+
+            while ($row = $lst->fetch(PDO::FETCH_ASSOC)) {
+                $lessonsByModule[$row['module_id']][] = $row;
+                $totalDuration += (int)$row['duration_sec'];
+                $totalLessons++;
+            }
+        }
+
+        // Monta módulos com suas aulas
+        foreach ($modules as &$m) {
+            $m['lessons'] = $lessonsByModule[$m['id']] ?? [];
+        }
+        unset($m);
+
+        // 4) Instrutores (course_instructors → user_profiles)
+        // Se tiver uma coluna de ordenação em course_instructors (ex: position), use no ORDER BY.
+        $isql = "SELECT 
+                up.user_id,
+                up.full_name,
+                up.bio,
+                up.avatar_url   AS avatar,
+                up.city,
+                up.state,
+                up.country,
+                up.created_at
+             FROM course_instructors ci
+             INNER JOIN user_profiles up ON up.user_id = ci.user_id
+             WHERE ci.course_id = ?
+             ORDER BY  up.full_name ASC";
+        $ist = $this->pdo->prepare($isql);
+        $ist->execute([$id]);
+        $instructors = $ist->fetchAll(PDO::FETCH_ASSOC);
+
+        // 5) Estrutura final
+        $course['modules']              = $modules;
+        $course['total_duration_sec']   = $totalDuration;
+        $course['total_lessons']        = $totalLessons;
+        $course['instructors']          = $instructors;
+
+        return $course;
+    }
+
+
     public function findBySlugWithStructure(string $slug): ?array
     {
         $st = $this->pdo->prepare("SELECT id FROM courses WHERE slug = ? LIMIT 1");
@@ -137,6 +215,31 @@ class CourseRepository implements ICourseRepository
         if (!$row) return null;
         return $this->findByIdWithStructure((int)$row['id']);
     }
+
+    public function findByCourseWithStructure(string $slug): ?array
+    {
+        $st = $this->pdo->prepare("SELECT id FROM courses WHERE slug = ? LIMIT 1");
+        $st->execute([$slug]);
+        $row = $st->fetch(PDO::FETCH_ASSOC);
+        if (!$row) return null;
+        return $this->findByIdWithStructure((int)$row['id']);
+    }
+
+    public function findByCourseWithStructureAdmin(string $id): ?array
+    {
+        $st = $this->pdo->prepare("SELECT course_id FROM course_instructors WHERE user_id = ? ");
+        $st->execute([$id]);
+        $rows = $st->fetchAll(PDO::FETCH_COLUMN);
+        if (!$rows) return []; // nenhum curso encontrado
+        $result = [];
+
+        foreach ($rows as $courseId) {
+            $result[] = $this->findByCoursesAdminWithStructure((int)$courseId);
+        }
+
+        return $result;
+    }
+
 
     public function findAllBasic(?string $q = null, ?int $categoryId = null, int $limit = 24, int $offset = 0): array
     {

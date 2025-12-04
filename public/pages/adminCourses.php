@@ -101,50 +101,9 @@ require_auth_or_403();
       </div>
 
       <!-- Courses List -->
-      <div class="space-y-4">
+      <div class="space-y-4" id="coursesGridAdmin">
         <!-- Card Curso 1 -->
-        <div
-          class="rounded-2xl border border-border/50 bg-card/50 backdrop-blur overflow-hidden group hover:shadow-premium transition-smooth">
-          <div class="flex flex-col md:flex-row">
-            <div class="md:w-64 h-40 overflow-hidden">
-              <img src="./public/src/assets/course-business.jpg" alt="Gestão Empresarial Avançada"
-                class="w-full h-full object-cover group-hover:scale-110 transition-smooth">
-            </div>
-            <div class="flex-1 p-6">
-              <div class="flex items-start justify-between mb-4">
-                <div>
-                  <h3 class="text-xl font-bold mb-2">Gestão Empresarial Avançada</h3>
-                  <!-- <Badge className="gradient-gold border-0">Publicado</Badge> -->
-                  <span
-                    class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold gradient-gold text-black border-0">Publicado</span>
-                </div>
-                <div class="flex gap-2">
-                  <!-- ghost icon buttons -->
-                  <a href="/courses/1"
-                    class="inline-flex items-center justify-center size-9 rounded-xl hover:bg-white/5 transition"
-                    title="Visualizar">
-                    <i data-lucide="eye" class="h-4 w-4"></i>
-                  </a>
-                  <a href="/admin/courses/1/edit"
-                    class="inline-flex items-center justify-center size-9 rounded-xl hover:bg-white/5 transition"
-                    title="Editar">
-                    <i data-lucide="edit" class="h-4 w-4"></i>
-                  </a>
-                  <button
-                    class="inline-flex items-center justify-center size-9 rounded-xl hover:bg-white/5 transition text-destructive hover:text-destructive"
-                    title="Excluir">
-                    <i data-lucide="trash-2" class="h-4 w-4"></i>
-                  </button>
-                </div>
-              </div>
-              <div class="flex flex-wrap gap-6 text-sm text-muted-foreground">
-                <span>2400 alunos</span>
-                <span>8 módulos</span>
-                <span>32 aulas</span>
-              </div>
-            </div>
-          </div>
-        </div>
+       
 
         <!-- Card Curso 2 -->
         <div
@@ -192,6 +151,7 @@ require_auth_or_403();
     </div>
   </div>
 
+  <script src="./public/src/js/main.js?v=<?php echo time()?>"></script>
   <script src="./public/src/js/tailwind.config.js"></script>
   <script src="./public/src/js/ui.js?v=<?php echo time() ?>"></script>
 

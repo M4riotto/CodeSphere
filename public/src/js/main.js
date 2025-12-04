@@ -5,6 +5,7 @@ const API = {
     CREATE: "/codesphere/app/routes/create_course_full.php",
     LIST: "/codesphere/app/routes/getCourses.php",
     GET_ONE: "/codesphere/app/routes/getCourseById.php",
+    LIST_COURSE_ADMIN: "/codesphere/app/routes/getCourseAdmin.php",
 };
 
 // -----------------------------
@@ -28,6 +29,7 @@ const el = {
 
     // Lista de cursos / busca
     grid: document.getElementById("coursesGrid"),
+    gridAdmin: document.getElementById("coursesGridAdmin"),
     emptyState: document.getElementById("emptyState"),
     search: document.getElementById("searchInput"),
     filterCat: document.getElementById("categorySelect"),
@@ -293,7 +295,6 @@ const logout = async () => {
         const resp = await fetch('./app/routes/auth/auth_logout.php')
         const result = await resp.json()
 
-        console.log(result)
         if (result?.success) {
             window.location.href = './index';
         }
@@ -457,6 +458,41 @@ const loadCourseFromQuery = async () => {
 };
 
 // -----------------------------
+// Página de curso (admin)
+// -----------------------------
+
+const loadCourseAdmin = async () => {
+
+    if (!el.gridAdmin) return;
+    const url = new URL(API.LIST_COURSE_ADMIN, window.location.origin);
+    url.searchParams.set("limit", "24");
+    url.searchParams.set("offset", "0");
+
+    renderLoading();
+
+    try {
+        const res = await fetch(url.toString());
+        const json = await res.json();
+        if (!json.success) throw new Error(json.message || "Falha ao listar cursos");
+
+        const items = json.data || [];
+
+        if (!items.length) {
+            el.gridAdmin.innerHTML = "";
+        } else {
+            el.gridAdmin.innerHTML = items.map(courseAdminCard).join("");
+            refreshIcons();
+        }
+    } catch (e) {
+        console.error(e);
+        el.gridAdmin.innerHTML = "";
+        el.emptyState.classList.remove("hidden");
+    }
+};
+
+
+
+// -----------------------------
 // Listagem / Cards / Skeleton
 // -----------------------------
 const skeleton = {
@@ -483,6 +519,55 @@ const renderLoading = (count = 6) => {
     el.grid.innerHTML = Array.from({ length: count }).map(skeleton.card).join("");
     el.emptyState.classList.add("hidden");
     refreshIcons();
+};
+
+const courseAdminCard = (c) => {
+
+    const imgSrc = c.thumbnail_url || "./public/src/assets/course-design.jpg";
+    return `
+      <div
+          class="rounded-2xl border border-border/50 bg-card/50 backdrop-blur overflow-hidden group hover:shadow-premium transition-smooth">
+          <div class="flex flex-col md:flex-row">
+            <div class="md:w-64 h-40 overflow-hidden">
+              <img src="${imgSrc}" alt="${c.slug}"
+                class="w-full h-full object-cover group-hover:scale-110 transition-smooth">
+            </div>
+            <div class="flex-1 p-6">
+              <div class="flex items-start justify-between mb-4">
+                <div>
+                  <h3 class="text-xl font-bold mb-2">${c.title}</h3>
+                  <!-- <Badge className="gradient-gold border-0">${c.is_published ? 'Publicado' : 'Rascunho'}</Badge> -->
+                  <span
+                    class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold gradient-gold text-black border-0">Publicado</span>
+                </div>
+                <div class="flex gap-2">
+                  <!-- ghost icon buttons -->
+                  <a href="/codesphere/courseDetail?slug=${c.slug}"
+                    class="inline-flex items-center justify-center size-9 rounded-xl hover:bg-white/5 transition"
+                    title="Visualizar">
+                    <i data-lucide="eye" class="h-4 w-4"></i>
+                  </a>
+                  <a href="/admin/courses/1/edit"
+                    class="inline-flex items-center justify-center size-9 rounded-xl hover:bg-white/5 transition"
+                    title="Editar">
+                    <i data-lucide="edit" class="h-4 w-4"></i>
+                  </a>
+                  <button
+                    class="inline-flex items-center justify-center size-9 rounded-xl hover:bg-white/5 transition text-destructive hover:text-destructive"
+                    title="Excluir">
+                    <i data-lucide="trash-2" class="h-4 w-4"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="flex flex-wrap gap-6 text-sm text-muted-foreground">
+                <span>2400 alunos</span>
+                <span>8 módulos</span>
+                <span>32 aulas</span>
+              </div>
+            </div>
+          </div>
+        </div>
+    `;
 };
 
 const courseCard = (c) => {
@@ -535,7 +620,6 @@ const fetchCourses = async () => {
             el.emptyState.classList.remove("hidden");
         } else {
             el.emptyState.classList.add("hidden");
-            // console.log(items)
             el.grid.innerHTML = items.filter(c => c.published).map(courseCard).join("");
             refreshIcons();
         }
@@ -555,6 +639,7 @@ if (el.filterCat) el.filterCat.addEventListener("change", fetchCourses);
 // -----------------------------
 // Se existir grid, já carrega a lista
 if (el.grid) fetchCourses();
+if (el.gridAdmin) loadCourseAdmin();
 
 // Se existir alvo de detalhe, tenta carregar por id/slug
 loadCourseFromQuery();

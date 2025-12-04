@@ -75,4 +75,4 @@ $svc = new AuthService();
     </div>
 </header>
 
-<script src="./public/src/js/main.js?v=1.0.4"></script>
+<!-- <script src="./public/src/js/main.js?v=1.0.4"></script> -->

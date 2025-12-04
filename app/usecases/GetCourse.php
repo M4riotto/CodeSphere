@@ -16,4 +16,10 @@ class GetCourse {
         if (!$data) throw new InvalidArgumentException('Curso não encontrado.');
         return $data;
     }
+
+    public function byIdAdmin(int $id): array {
+        $data = $this->repo->findByCourseWithStructureAdmin($id);
+        if (!$data) throw new InvalidArgumentException('Curso não encontrado.');
+        return $data;
+    }
 }
